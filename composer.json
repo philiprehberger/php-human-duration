@@ -1,7 +1,9 @@
 {
     "name": "philiprehberger/php-human-duration",
     "description": "Convert seconds into human-readable duration strings",
+    "type": "library",
     "keywords": ["duration", "time", "human", "readable", "format"],
+    "homepage": "https://github.com/philiprehberger/php-human-duration",
     "license": "MIT",
     "authors": [
         {
@@ -29,6 +31,11 @@
     },
     "config": {
         "sort-packages": true
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "lint": "vendor/bin/pint",
+        "analyse": "vendor/bin/phpstan analyse"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
