@@ -2,8 +2,6 @@
 
 [![Tests](https://github.com/philiprehberger/php-human-duration/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/php-human-duration/actions/workflows/tests.yml)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/php-human-duration.svg)](https://packagist.org/packages/philiprehberger/php-human-duration)
-[![Total Downloads](https://img.shields.io/packagist/dt/philiprehberger/php-human-duration.svg)](https://packagist.org/packages/philiprehberger/php-human-duration)
-[![PHP Version Require](https://img.shields.io/packagist/php-v/philiprehberger/php-human-duration.svg)](https://packagist.org/packages/philiprehberger/php-human-duration)
 [![License](https://img.shields.io/github/license/philiprehberger/php-human-duration)](LICENSE)
 
 Convert seconds into human-readable duration strings.
@@ -99,35 +97,15 @@ $duration->toCompact(); // "-1:05"
 | `totalMinutes()` | `float` | Total minutes |
 | `totalHours()` | `float` | Total hours |
 
----
-
-## Testing
+## Development
 
 ```bash
 composer install
 vendor/bin/phpunit
-```
-
-Code style:
-
-```bash
-vendor/bin/pint
-```
-
-Static analysis:
-
-```bash
+vendor/bin/pint --test
 vendor/bin/phpstan analyse
 ```
 
----
-
-## Changelog
-
-Please see [CHANGELOG.md](CHANGELOG.md) for recent changes.
-
----
-
 ## License
 
-The MIT License (MIT). Please see [LICENSE](LICENSE) for more information.
+MIT
