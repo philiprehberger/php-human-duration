@@ -6,23 +6,15 @@
 
 Convert seconds into human-readable duration strings.
 
----
-
 ## Requirements
 
-| Dependency | Version |
-|------------|---------|
-| PHP        | ^8.2    |
-
----
+- PHP 8.2+
 
 ## Installation
 
 ```bash
 composer require philiprehberger/php-human-duration
 ```
-
----
 
 ## Usage
 
@@ -79,8 +71,6 @@ $duration->toHuman();   // "-1m 5s"
 $duration->toVerbose(); // "-1 minute, 5 seconds"
 $duration->toCompact(); // "-1:05"
 ```
-
----
 
 ## API
 
