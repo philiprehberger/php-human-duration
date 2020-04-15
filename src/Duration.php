@@ -170,6 +170,54 @@ final class Duration implements Stringable
         return $this->seconds / 3600;
     }
 
+    /**
+     * Get total days as float.
+     */
+    public function totalDays(): float
+    {
+        return $this->seconds / 86400;
+    }
+
+    /**
+     * Check if this duration is greater than another.
+     */
+    public function isGreaterThan(Duration $other): bool
+    {
+        return $this->seconds > $other->seconds;
+    }
+
+    /**
+     * Check if this duration is less than another.
+     */
+    public function isLessThan(Duration $other): bool
+    {
+        return $this->seconds < $other->seconds;
+    }
+
+    /**
+     * Check if this duration equals another.
+     */
+    public function equals(Duration $other): bool
+    {
+        return $this->seconds === $other->seconds;
+    }
+
+    /**
+     * Add another duration, returning a new instance.
+     */
+    public function add(Duration $other): self
+    {
+        return new self($this->seconds + $other->seconds);
+    }
+
+    /**
+     * Subtract another duration, returning a new instance.
+     */
+    public function subtract(Duration $other): self
+    {
+        return new self($this->seconds - $other->seconds);
+    }
+
     public function __toString(): string
     {
         return $this->toHuman();
