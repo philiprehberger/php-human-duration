@@ -3,6 +3,7 @@
 [![Tests](https://github.com/philiprehberger/php-human-duration/actions/workflows/tests.yml/badge.svg)](https://github.com/philiprehberger/php-human-duration/actions/workflows/tests.yml)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/philiprehberger/php-human-duration.svg)](https://packagist.org/packages/philiprehberger/php-human-duration)
 [![License](https://img.shields.io/github/license/philiprehberger/php-human-duration)](LICENSE)
+[![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
 
 Convert seconds into human-readable duration strings.
 
