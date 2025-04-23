@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhilipRehberger\HumanDuration;
 
 use DateTimeInterface;
+use InvalidArgumentException;
 use Stringable;
 
 /**
@@ -36,6 +37,27 @@ final class Duration implements Stringable
     public static function fromHours(int|float $hours): self
     {
         return new self((int) round($hours * 3600));
+    }
+
+    /**
+     * Parse a human-readable duration string.
+     *
+     * Supports shorthand ("1h 30m 15s"), verbose ("2 hours, 45 minutes"),
+     * decimal ("1.5h"), and day units ("1d 2h").
+     */
+    public static function parse(string $input): self
+    {
+        return DurationParser::parse($input);
+    }
+
+    /**
+     * Parse an ISO 8601 duration string.
+     *
+     * Supports formats like "PT1H30M15S", "P1DT2H", "PT90M".
+     */
+    public static function fromIso(string $iso): self
+    {
+        return DurationParser::parseIso($iso);
     }
 
     /**
@@ -216,6 +238,71 @@ final class Duration implements Stringable
     public function subtract(Duration $other): self
     {
         return new self($this->seconds - $other->seconds);
+    }
+
+    /**
+     * Format as ISO 8601 duration string.
+     *
+     * Returns strings like "PT1H30M15S", "P1DT2H", "PT0S".
+     */
+    public function toIso(): string
+    {
+        $abs = abs($this->seconds);
+        $negative = $this->seconds < 0;
+
+        $days = intdiv($abs, 86400);
+        $remaining = $abs % 86400;
+        $hours = intdiv($remaining, 3600);
+        $remaining = $remaining % 3600;
+        $minutes = intdiv($remaining, 60);
+        $secs = $remaining % 60;
+
+        $result = 'P';
+
+        if ($days > 0) {
+            $result .= "{$days}D";
+        }
+
+        $timePart = '';
+        if ($hours > 0) {
+            $timePart .= "{$hours}H";
+        }
+        if ($minutes > 0) {
+            $timePart .= "{$minutes}M";
+        }
+        if ($secs > 0) {
+            $timePart .= "{$secs}S";
+        }
+
+        if ($timePart !== '') {
+            $result .= "T{$timePart}";
+        }
+
+        if ($result === 'P') {
+            $result = 'PT0S';
+        }
+
+        return $negative ? "-{$result}" : $result;
+    }
+
+    /**
+     * Return a new Duration that is the given percentage of this duration.
+     */
+    public function percentage(float $percent): self
+    {
+        return new self((int) round($this->seconds * $percent / 100));
+    }
+
+    /**
+     * Return a proportional fraction of this duration.
+     */
+    public function fraction(int $numerator, int $denominator): self
+    {
+        if ($denominator === 0) {
+            throw new InvalidArgumentException('Denominator cannot be zero.');
+        }
+
+        return new self((int) round($this->seconds * $numerator / $denominator));
     }
 
     public function __toString(): string

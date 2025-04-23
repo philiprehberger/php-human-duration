@@ -7,6 +7,13 @@ and `php-human-duration` adheres to [Semantic Versioning](https://semver.org/spe
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-03-31
+
+### Added
+- Parse from human-readable strings via `Duration::parse()` (e.g., "1h 30m 15s", "2 hours 45 minutes")
+- ISO 8601 duration support via `Duration::fromIso()` and `Duration::toIso()`
+- Percentage and fraction operations via `percentage()` and `fraction()`
+
 ## [1.1.1] - 2026-03-31
 
 ### Changed

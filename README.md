@@ -39,6 +39,31 @@ $duration = Duration::between(
 );
 ```
 
+### Parsing Durations
+
+```php
+use PhilipRehberger\HumanDuration\Duration;
+
+// Shorthand
+$duration = Duration::parse('1h 30m 15s'); // 5415 seconds
+
+// Verbose
+$duration = Duration::parse('2 hours, 45 minutes'); // 9900 seconds
+
+// Decimal
+$duration = Duration::parse('1.5h'); // 5400 seconds
+
+// With days
+$duration = Duration::parse('1d 2h'); // 93600 seconds
+
+// ISO 8601
+$duration = Duration::fromIso('PT1H30M15S'); // 5415 seconds
+$duration = Duration::fromIso('P1DT2H');     // 93600 seconds
+
+// Convert to ISO 8601
+$duration->toIso(); // "PT1H30M15S"
+```
+
 ### Formatting Durations
 
 ```php
@@ -76,6 +101,20 @@ $a->add($b)->toHuman();      // "2h 30m"
 $a->subtract($b)->toHuman(); // "30m"
 ```
 
+### Proportional Calculations
+
+```php
+$duration = Duration::fromMinutes(90);
+
+// Get 25% of a duration
+$quarter = $duration->percentage(25);
+$quarter->totalSeconds(); // 1350 (22.5 minutes)
+
+// Get a fraction of a duration
+$third = $duration->fraction(1, 3);
+$third->totalSeconds(); // 1800 (30 minutes)
+```
+
 ### Negative Durations
 
 ```php
@@ -94,9 +133,12 @@ $duration->toCompact(); // "-1:05"
 | `Duration::fromMinutes(int\|float $minutes)` | `Duration` | Create from minutes |
 | `Duration::fromHours(int\|float $hours)` | `Duration` | Create from hours |
 | `Duration::between(DateTimeInterface $start, DateTimeInterface $end)` | `Duration` | Create from date difference |
+| `Duration::parse(string $input)` | `Duration` | Parse human-readable string (e.g., "1h 30m", "2 hours") |
+| `Duration::fromIso(string $iso)` | `Duration` | Parse ISO 8601 duration (e.g., "PT1H30M") |
 | `toHuman()` | `string` | Compact format: `1h 5m 30s` |
 | `toVerbose()` | `string` | Verbose format: `1 hour, 5 minutes, 30 seconds` |
 | `toCompact()` | `string` | Clock format: `1:05:30` |
+| `toIso()` | `string` | ISO 8601 format: `PT1H5M30S` |
 | `totalSeconds()` | `int` | Total seconds |
 | `totalMinutes()` | `float` | Total minutes |
 | `totalHours()` | `float` | Total hours |
@@ -106,6 +148,8 @@ $duration->toCompact(); // "-1:05"
 | `equals(Duration $other)` | `bool` | Check if equal to another duration |
 | `add(Duration $other)` | `Duration` | Add two durations, returning a new instance |
 | `subtract(Duration $other)` | `Duration` | Subtract a duration, returning a new instance |
+| `percentage(float $percent)` | `Duration` | Return given percentage of this duration |
+| `fraction(int $numerator, int $denominator)` | `Duration` | Return proportional fraction of this duration |
 
 ## Development
 
