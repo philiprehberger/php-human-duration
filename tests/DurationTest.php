@@ -123,4 +123,79 @@ class DurationTest extends TestCase
         $this->assertSame('3d', $duration->toHuman());
         $this->assertSame('3 days', $duration->toVerbose());
     }
+
+    public function test_total_days(): void
+    {
+        $duration = Duration::fromSeconds(129600); // 1.5 days
+        $this->assertSame(1.5, $duration->totalDays());
+    }
+
+    public function test_total_days_zero(): void
+    {
+        $this->assertSame(0.0, Duration::fromSeconds(0)->totalDays());
+    }
+
+    public function test_is_greater_than(): void
+    {
+        $longer = Duration::fromSeconds(120);
+        $shorter = Duration::fromSeconds(60);
+
+        $this->assertTrue($longer->isGreaterThan($shorter));
+        $this->assertFalse($shorter->isGreaterThan($longer));
+        $this->assertFalse($longer->isGreaterThan($longer));
+    }
+
+    public function test_is_less_than(): void
+    {
+        $longer = Duration::fromSeconds(120);
+        $shorter = Duration::fromSeconds(60);
+
+        $this->assertTrue($shorter->isLessThan($longer));
+        $this->assertFalse($longer->isLessThan($shorter));
+        $this->assertFalse($shorter->isLessThan($shorter));
+    }
+
+    public function test_equals(): void
+    {
+        $a = Duration::fromSeconds(300);
+        $b = Duration::fromMinutes(5);
+        $c = Duration::fromSeconds(301);
+
+        $this->assertTrue($a->equals($b));
+        $this->assertFalse($a->equals($c));
+    }
+
+    public function test_add(): void
+    {
+        $a = Duration::fromSeconds(60);
+        $b = Duration::fromSeconds(90);
+        $result = $a->add($b);
+
+        $this->assertSame(150, $result->totalSeconds());
+        // Verify immutability — originals unchanged
+        $this->assertSame(60, $a->totalSeconds());
+        $this->assertSame(90, $b->totalSeconds());
+    }
+
+    public function test_subtract(): void
+    {
+        $a = Duration::fromSeconds(90);
+        $b = Duration::fromSeconds(60);
+        $result = $a->subtract($b);
+
+        $this->assertSame(30, $result->totalSeconds());
+        // Verify immutability — originals unchanged
+        $this->assertSame(90, $a->totalSeconds());
+        $this->assertSame(60, $b->totalSeconds());
+    }
+
+    public function test_subtract_resulting_in_negative(): void
+    {
+        $a = Duration::fromSeconds(30);
+        $b = Duration::fromSeconds(60);
+        $result = $a->subtract($b);
+
+        $this->assertSame(-30, $result->totalSeconds());
+        $this->assertSame('-30s', $result->toHuman());
+    }
 }

@@ -62,6 +62,20 @@ $duration->totalMinutes(); // 90.0
 $duration->totalHours();   // 1.5
 ```
 
+### Comparing and Combining Durations
+
+```php
+$a = Duration::fromMinutes(90);
+$b = Duration::fromHours(1);
+
+$a->isGreaterThan($b); // true
+$a->isLessThan($b);    // false
+$a->equals($b);        // false
+
+$a->add($b)->toHuman();      // "2h 30m"
+$a->subtract($b)->toHuman(); // "30m"
+```
+
 ### Negative Durations
 
 ```php
@@ -86,6 +100,12 @@ $duration->toCompact(); // "-1:05"
 | `totalSeconds()` | `int` | Total seconds |
 | `totalMinutes()` | `float` | Total minutes |
 | `totalHours()` | `float` | Total hours |
+| `totalDays()` | `float` | Total days |
+| `isGreaterThan(Duration $other)` | `bool` | Check if greater than another duration |
+| `isLessThan(Duration $other)` | `bool` | Check if less than another duration |
+| `equals(Duration $other)` | `bool` | Check if equal to another duration |
+| `add(Duration $other)` | `Duration` | Add two durations, returning a new instance |
+| `subtract(Duration $other)` | `Duration` | Subtract a duration, returning a new instance |
 
 ## Development
 
